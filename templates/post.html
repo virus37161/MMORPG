@@ -1,0 +1,34 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+
+{% block content %}
+
+<h3>{{data.name}}</h3>
+{%if data.image%}
+<img src="{{data.image.url}}" width ="400" height = "200" >
+{%endif%}
+<p>{{data.text}}</p>
+
+<hr>
+<p>Категории:
+{%for i in data.post_category.all%}
+{{i}}
+{%endfor%}</p>
+<p>Пользователь:
+{{data.post_user.username}}<p>
+{%if data.post_user_id == user.id%}
+<button><a href="/post/delete/{{data.id}}/">Удалить объявление</a></button>
+<button><a href="/post/update/{{data.id}}/">Редактировать объявление</a></button>
+    {%endif%}
+{%if data.post_user_id != user.id%}
+    <form action = "/post/response/{{data.id}}/" method = "post">
+    {% csrf_token %}
+    <input type = "text" name = "my_input" placeholder="Input value">
+    <input type="submit" value = "Откликнуться">
+</form>
+    {%endif%}
+{% endblock content %}

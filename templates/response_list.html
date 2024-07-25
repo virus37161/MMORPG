@@ -1,0 +1,24 @@
+{% extends 'default.html' %}
+{% load custom_filter %}
+{%block content%}<br>
+<form action="" method="get">
+
+       {{ filterset.form.as_p }}
+
+       <input type="submit" value="Найти" />
+   </form><br><hr>
+{%for i in data%}
+
+{%if i.responses_set.all%}
+  <p>Объявление: {{i.name}}</p>
+
+
+{%for b in i.responses_set.all%}
+  <p>{{b|name_user}}: {{b.message}}
+    <button><a href="/post/response_confirm/{{b.id}}/">Откликнуться</a></button>
+    <button><a href="/post/response_delete/{{b.id}}/">Удалить</a></button></p>
+
+    {%endfor%}<hr>
+{%endif%}
+{%endfor%}
+{% endblock %}
