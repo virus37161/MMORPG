@@ -2,23 +2,17 @@
 {% load custom_filter %}
 {%block content%}<br>
 <form action="" method="get">
-
-       {{ filterset.form.as_p }}
-
+       {{ filterset.form}}
        <input type="submit" value="Найти" />
-   </form><br><hr>
-{%for i in data%}
-
-{%if i.responses_set.all%}
-  <p>Объявление: {{i.name}}</p>
-
-
-{%for b in i.responses_set.all%}
-  <p>{{b|name_user}}: {{b.message}}
-    <button><a href="/post/response_confirm/{{b.id}}/">Откликнуться</a></button>
-    <button><a href="/post/response_delete/{{b.id}}/">Удалить</a></button></p>
-
-    {%endfor%}<hr>
+   </form><br>
+<button><a href="/post/response_list">Сбросить фильтр</a></button><br><hr>
+{%if data%}
+{%for i in filterset.qs%}
+{% if i%}
+  <p>{{i|name_user}}:{{i.message}}
+    <button><a href="/post/response_confirm/{{i.id}}/">Откликнуться</a></button>
+    <button><a href="/post/response_delete/{{i.id}}/">Удалить</a></button></p><hr>
 {%endif%}
-{%endfor%}
+    {%endfor%}
+{%endif%}
 {% endblock %}

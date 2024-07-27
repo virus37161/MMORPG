@@ -8,10 +8,7 @@ Post
 {% block content %}
 
 <h3>{{data.name}}</h3>
-{%if data.image%}
-<img src="{{data.image.url}}" width ="400" height = "200" >
-{%endif%}
-<p>{{data.text}}</p>
+<p>{{data.text| safe}}</p>
 
 <hr>
 <p>Категории:

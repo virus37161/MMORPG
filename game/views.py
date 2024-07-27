@@ -28,7 +28,6 @@ class PostDetail(DetailView):
         return context
 
 class PostCreate(LoginRequiredMixin,CreateView):
-    permission_required = ('news.add_post')
     form_class= PostForm
     model = Post
     template_name = "post_create.html"
@@ -76,14 +75,17 @@ def response_add (request, pk):
     return redirect('/post')
 
 class ResponseList(LoginRequiredMixin,ListView):
-    model = Post
+    model = Responses
     template_name = 'response_list.html'
     context_object_name = 'data'
 
     def get_queryset(self):
-        queryset = Post.objects.filter(post_user_id = self.request.user.id)
-        self.filterset = ResponseFilter(self.request.GET, queryset)
-        return self.filterset.qs
+        queryset = Responses.objects.filter(response_post__post_user_id = self.request.user.id)
+        self.filterset = ResponseFilter(self.request.GET, queryset, request = self.request.user.id)
+        if self.request.GET:
+            return self.filterset.qs
+        else:
+            return Responses.objects.none()
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset

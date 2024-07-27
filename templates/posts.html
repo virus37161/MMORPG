@@ -2,7 +2,7 @@
 {%block content%}
     {%for i in data%}
     <a href = "/post/{{i.id}}"><h3>{{i.name}}</h3>
-    <p>{{i.text}}</p>
+   {{i.text|safe}}
     {%if i.image%}
     <img src="{{i.image.url}}" width ="400" height = "200" ></a>
     {%endif%}
